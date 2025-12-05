@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:56:16 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/03 16:14:43 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/05 18:21:12 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int builtin_cd(t_cmd *cmd, t_data *data)
     if (chdir(path) == -1)
     {
         cd_error(path);
+        
         free(path);
         free(old_pwd);
         return (1);
