@@ -1,0 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/27 09:57:02 by ebichan           #+#    #+#             */
+/*   Updated: 2025/12/03 10:26:54 by ebichan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int builtin_env(t_cmd *cmd, t_data *data)
+{
+    int i;
+
+    i = 0;
+    //オプション処理を後で入れる
+    if(ft_argv_len(cmd->argv) != 1)
+    {
+        ft_putendl_fd("minishell: env: too many arguments",2);
+        return(1);
+    }
+    while(data->envp[i])
+    {
+        if(ft_strchr(data->envp[i], '='))
+            printf("%s\n", data->envp[i]);
+        i++;
+    }
+    return(0);
+}
