@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:56:10 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/03 10:55:10 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/06 23:46:22 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ int builtin_echo(t_cmd *cmd, t_data *data)
         option_flag = i;
         while(cmd->argv[i] != NULL)
         {
-            ft_putstr_fd(cmd->argv[i],1);
+            ft_putstr_fd(cmd->argv[i],STDOUT_FILENO);
             if(cmd->argv[i + 1] != NULL)
-                ft_putchar_fd(' ', 1);
+                ft_putchar_fd(' ', STDOUT_FILENO);
             i++;
         }
     }
     if(option_flag == 1)
-        ft_putchar_fd('\n', 1);
+        ft_putchar_fd('\n', STDOUT_FILENO);
     return(0);
 }

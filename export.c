@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:56:35 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/03 16:15:14 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/06 23:47:49 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int builtin_export(t_cmd *cmd, t_data *data)
     {
         if(!is_valid_identifier(cmd->argv[i]))
         {
-            ft_putstr_fd("minishell: export: `", 2);
-            ft_putstr_fd(cmd->argv[i],2);
-            ft_putendl_fd("': not a valid identifier", 2);
+            ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+            ft_putstr_fd(cmd->argv[i],STDERR_FILENO);
+            ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
             status = 1;
         }
         else

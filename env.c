@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:57:02 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/03 10:26:54 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/06 23:46:42 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@ int builtin_env(t_cmd *cmd, t_data *data)
     int i;
 
     i = 0;
-    //オプション処理を後で入れる
+    if(print_option_err(cmd) == 1)
+        return(1);
     if(ft_argv_len(cmd->argv) != 1)
     {
-        ft_putendl_fd("minishell: env: too many arguments",2);
+        ft_putendl_fd("minishell: env: too many arguments",STDERR_FILENO);
         return(1);
     }
     while(data->envp[i])

@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:57:11 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/03 13:44:36 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/06 23:45:17 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ static int is_numeric(char *str)
 
 static void exit_err(t_cmd *cmd)
 {
-    ft_putstr_fd("minishell: exit: ", 2);
+    ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(cmd->argv[1], 2);
-	ft_putendl_fd(": numeric argument required", 2);
+	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 	exit(2);
 }
 
@@ -90,7 +90,7 @@ int builtin_exit(t_cmd *cmd,t_data *data)
             exit_err(cmd);
         if(ft_argv_len(cmd->argv) >= 3)
         {
-            ft_putendl_fd("minishell: exit: too many arguments", 2);
+            ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
 		    return (1);
         }
         exit_status = ft_atol(cmd->argv[1]);

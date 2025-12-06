@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:56:25 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/03 16:13:35 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/06 15:58:42 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int builtin_pwd(t_cmd *cmd, t_data *data)
 
     if (print_option_err(cmd))
         return (1);
-    cwd = get_env_value("PWD", data);//getcwdにするかどうか
+    cwd = getcwd(NULL,0);
     if(cwd == NULL)
     {
         perror("minishell: pwd");

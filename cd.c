@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:56:16 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/05 18:21:12 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/06 23:46:23 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int cd_error(char *path)
 {
-    ft_putstr_fd("minishell: cd: ", 2);
+    ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
     ft_putstr_fd(path, 2);
     ft_putstr_fd(": ", 2);
     perror(path);
@@ -47,26 +47,36 @@ int builtin_cd(t_cmd *cmd, t_data *data)
 
     if(ft_argv_len(cmd->argv) >= 3)
     {
-        ft_putendl_fd("minishell: cd: too many arguments",2);
+        ft_putendl_fd("minishell: cd: too many arguments",STDERR_FILENO);
         return(1);
     }
-    if(ft_argv_len(cmd->argv) == 1 || (cmd->argv[1][0] == '~' && cmd->argv[1][1] == '\0'))
+    if(ft_argv_len(cmd->argv) == 1)
     {
         path = get_env_value("HOME", data);
         if(path == NULL || ft_strlen(path) == 0)
         {
-            ft_putendl_fd("minishell: cd: HOME not set",2);
-            free(path);
+            ft_putendl_fd("minishell: cd: HOME not set",STDERR_FILENO);
+            if(path != NULL)
+                free(path);
             return(1);
         }
     }
+    else if(ft_argv_len(cmd->argv) == 2 &&ft_strncmp(cmd->argv[1], "-", 2) == 0)
+    {
+        path = ft_strdup(get_env_value("OLDPWD", data));
+        if(path == NULL)
+        {
+            ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
+            return(1);
+        }
+        ft_putendl_fd(path, 1);
+    }
     else
         path = ft_strdup(cmd->argv[1]);
-    old_pwd = get_env_value("PWD", data);//getcwdにするかどうか
+    old_pwd = getcwd(NULL, 0);
     if (chdir(path) == -1)
     {
         cd_error(path);
-        
         free(path);
         free(old_pwd);
         return (1);
@@ -79,7 +89,7 @@ int builtin_cd(t_cmd *cmd, t_data *data)
         free(new_pwd);
     }
     else
-        ft_putendl_fd("minishell: cd: error retrieving current directory", 2);
+        ft_putendl_fd("minishell: cd: error retrieving current directory", STDERR_FILENO);
     free(path);
     free(old_pwd);
     return (0);

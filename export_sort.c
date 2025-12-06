@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 14:15:40 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/03 14:45:55 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/06 23:47:30 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void print_export(char *str)
     int i;
 
     i = 0;
-    ft_putstr_fd("declare -x ", 1);
+    ft_putstr_fd("declare -x ", STDOUT_FILENO);
     while(str[i] != '\0' && str[i] != '=')
     {
         ft_putchar_fd(str[i], 1);
@@ -49,11 +49,11 @@ static void print_export(char *str)
     }
     if(str[i] ==  '=')
     {
-        ft_putstr_fd("=\"", 1);
-        ft_putstr_fd(&str[i + 1], 1);
-        ft_putstr_fd("\"", 1);
+        ft_putstr_fd("=\"", STDOUT_FILENO);
+        ft_putstr_fd(&str[i + 1], STDOUT_FILENO);
+        ft_putstr_fd("\"", STDOUT_FILENO);
     }
-    ft_putchar_fd('\n', 1);
+    ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
 void print_sorted_env(char **envp)
