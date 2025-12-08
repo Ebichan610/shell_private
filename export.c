@@ -6,7 +6,7 @@
 /*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:56:35 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/08 12:00:17 by yebi             ###   ########.fr       */
+/*   Updated: 2025/12/08 13:56:59 by yebi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@ static int	is_valid_identifier(char *arg)
 	return (1);
 }
 
+static int	print_export_err(char *arg)
+{
+	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+	return (1);
+}
+
 int	builtin_export(t_cmd *cmd, t_data *data)
 {
 	int	i;
@@ -52,13 +60,8 @@ int	builtin_export(t_cmd *cmd, t_data *data)
 	status = 0;
 	while (cmd->argv[i] != NULL)
 	{
-		if (!is_valid_identifier(cmd->argv[i]))
-		{
-			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-			ft_putstr_fd(cmd->argv[i], STDERR_FILENO);
-			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
-			status = 1;
-		}
+		if (is_valid_identifier(cmd->argv[i]) == 0)
+			status = print_export_err(cmd->argv[i]);
 		else
 			env_deal(data, cmd->argv[i]);
 		i++;

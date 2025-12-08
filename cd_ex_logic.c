@@ -6,33 +6,39 @@
 /*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 01:37:49 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/08 11:59:48 by yebi             ###   ########.fr       */
+/*   Updated: 2025/12/08 14:04:48 by yebi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static char	*append_path_segment(char *path, char *segment)
+{
+	char	*tmp;
+	char	*new_path;
+
+	tmp = ft_strjoin(path, "/");
+	free(path);
+	if (tmp == NULL)
+		return (NULL);
+	new_path = ft_strjoin(tmp, segment);
+	free(tmp);
+	return (new_path);
+}
+
 static char	*rebuild_path(t_list *stack)
 {
 	char	*path;
-	char	*tmp;
-	t_list	*cur;
 
 	path = ft_strdup("");
 	if (path == NULL)
 		return (NULL);
-	cur = stack;
-	while (cur != NULL)
+	while (stack != NULL)
 	{
-		tmp = ft_strjoin(path, "/");
-		free(path);
-		if (tmp == NULL)
-			return (NULL);
-		path = ft_strjoin(tmp, (char *)cur->content);
-		free(tmp);
+		path = append_path_segment(path, (char *)stack->content);
 		if (path == NULL)
 			return (NULL);
-		cur = cur->next;
+		stack = stack->next;
 	}
 	if (ft_strlen(path) == 0)
 	{

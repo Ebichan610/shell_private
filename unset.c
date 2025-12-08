@@ -6,7 +6,7 @@
 /*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:56:40 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/08 12:00:30 by yebi             ###   ########.fr       */
+/*   Updated: 2025/12/08 13:50:03 by yebi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,10 @@ static void	remove_env(int remove_i, t_data *data)
 	while (i < count)
 	{
 		if (i == remove_i)
-		{
 			free(data->envp[i]);
-			i++;
-			continue ;
-		}
-		new_envp[j] = data->envp[i];
+		else
+			new_envp[j++] = data->envp[i];
 		i++;
-		j++;
 	}
 	new_envp[j] = NULL;
 	free(data->envp);
