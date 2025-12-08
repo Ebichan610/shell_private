@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 14:15:40 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/06 23:47:30 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/08 00:24:46 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void print_sorted_env(char **envp)
     count = ft_argv_len(envp);
     sorted_env = (char **)malloc(sizeof(char *) * (count + 1));
     if(sorted_env == NULL)
-        return;//mallocのエラー処理なので後で
+        return;
     i = 0;
     while(i < count)
     {

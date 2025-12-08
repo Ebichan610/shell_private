@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 14:58:01 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/03 15:43:00 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/08 09:53:20 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char *create_clean_env(char *arg)
         return(ft_strdup(arg));
     new_str = (char *)malloc(sizeof(char) * total_len);
     if(new_str == NULL)
-        return(NULL);//mallocエラー処理
+        return(NULL);
     ft_strlcpy(new_str, arg, (plus_ptr - arg) + 1);
     ft_strlcat(new_str, plus_ptr + 1, total_len);
     return(new_str);
@@ -52,13 +52,15 @@ static void update_env_value(t_data *data, int i, char *arg, int append_flag)
 	char	*val_start;
 
 	val_start = ft_strchr(arg, '=');
-	if (!val_start)
+	if (val_start == NULL)
 		return ;
 	val_start++;
 	if (append_flag)
 		new_entry = ft_strjoin(data->envp[i], val_start);
 	else
 		new_entry = create_clean_env(arg);
+    if(new_entry == NULL)
+        return;
 	free(data->envp[i]);
 	data->envp[i] = new_entry;
 }
@@ -79,7 +81,7 @@ static void add_new_env(t_data *data, char *arg)
     if(new_envp == NULL)
     {
         free(clean_arg);
-        return;//mallocエラー処理
+        return;
     }
     i = 0;
     while(i < count)

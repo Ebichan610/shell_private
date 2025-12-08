@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:56:40 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/03 16:15:30 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/08 00:24:30 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void remove_env(int remove_i, t_data *data)
     count = ft_argv_len(data->envp);
     new_envp = (char **)malloc(sizeof(char *) * count);
     if (new_envp == NULL)
-        return;//mallocエラーのため、処理は検討
+        return;
     i = 0;
     j = 0;
     while(i < count)

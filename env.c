@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:57:02 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/06 23:46:42 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/08 10:05:23 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int builtin_env(t_cmd *cmd, t_data *data)
     while(data->envp[i])
     {
         if(ft_strchr(data->envp[i], '='))
-            printf("%s\n", data->envp[i]);
+            ft_putendl_fd(data->envp[i],STDOUT_FILENO);
         i++;
     }
     return(0);

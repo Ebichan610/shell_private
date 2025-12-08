@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:57:11 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/06 23:45:17 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/08 10:14:49 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,18 @@ static int is_numeric(char *str)
     if(*str == '-' || *str == '+')
         str++;
     if (*str == '\0')
-        return (1);
+        return (0);
     while(*str >= '0' && *str <= '9')
         str++;
     if(*str != '\0')
-        return(1);
-    return(0);
+        return(0);
+    return(1);
 }
 
 static void exit_err(t_cmd *cmd)
 {
     ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-	ft_putstr_fd(cmd->argv[1], 2);
+	ft_putstr_fd(cmd->argv[1], STDERR_FILENO);
 	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 	exit(2);
 }
@@ -83,10 +83,10 @@ int builtin_exit(t_cmd *cmd,t_data *data)
 {
     long exit_status;
     
-    ft_putendl_fd("exit",2);
+    ft_putendl_fd("exit",STDERR_FILENO);
     if(ft_argv_len(cmd->argv) >= 2)
     {
-        if(is_numeric(cmd->argv[1]))
+        if(is_numeric(cmd->argv[1]) == 0)
             exit_err(cmd);
         if(ft_argv_len(cmd->argv) >= 3)
         {
