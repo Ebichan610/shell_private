@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
+/*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/27 09:56:16 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/08 12:00:03 by yebi             ###   ########.fr       */
+/*   Created: 2025/12/08 00:16:42 by ebichan           #+#    #+#             */
+/*   Updated: 2025/12/09 15:01:25 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,45 +40,58 @@ static char	*set_cd_path(t_cmd *cmd, t_data *data)
 	return (ft_strdup(cmd->argv[1]));
 }
 
-static void	update_dir(t_data *data, char *old_pwd)
+static void	update_dir(t_data *data, char *old_pwd, char *new_path)
 {
-	char	*new_pwd;
+	if (old_pwd)
+		update_env_var_cd(data, "OLDPWD", old_pwd);
+	if (new_path)
+		update_env_var_cd(data, "PWD", new_path);
+}
 
-	new_pwd = getcwd(NULL, 0);
-	if (new_pwd != NULL)
+static char	*get_base_pwd(t_data *data)
+{
+	char	*pwd;
+
+	pwd = get_env_value("PWD", data);
+	if (pwd)
+		return (ft_strdup(pwd));
+	return (getcwd(NULL, 0));
+}
+
+static int	exec_chdir(t_data *data, char *final_path, char *base_pwd)
+{
+	if (chdir(final_path) == -1)
 	{
-		if (old_pwd != NULL)
-			update_env_var_cd(data, "OLDPWD", old_pwd);
-		update_env_var_cd(data, "PWD", new_pwd);
-		free(new_pwd);
+		cd_error(final_path);
+		return (1);
 	}
-	else
-		ft_putendl_fd("minishell: cd: error retrieving current directory",
-			STDERR_FILENO);
+	update_dir(data, base_pwd, final_path);
+	return (0);
 }
 
 int	builtin_cd(t_cmd *cmd, t_data *data)
 {
-	char	*path;
-	char	*old_pwd;
-	int		check_args;
+	char	*target;
+	char	*base_pwd;
+	char	*final_path;
+	int		ret;
 
-	check_args = check_cd_args(cmd);
-	if (check_args != 0)
-		return (check_args);
-	path = set_cd_path(cmd, data);
-	if (path == NULL)
+	ret = check_cd_args(cmd);
+	if (ret != 0)
+		return (ret);
+	target = set_cd_path(cmd, data);
+	if (target == NULL)
 		return (1);
-	old_pwd = getcwd(NULL, 0);
-	if (chdir(path) == -1)
+	base_pwd = get_base_pwd(data);
+	final_path = solve_logic_path(base_pwd, target);
+	free(target);
+	if (final_path == NULL)
 	{
-		cd_error(path);
-		free(path);
-		free(old_pwd);
+		free(base_pwd);
 		return (1);
 	}
-	update_dir(data, old_pwd);
-	free(path);
-	free(old_pwd);
-	return (0);
+	ret = exec_chdir(data, final_path, base_pwd);
+	free(base_pwd);
+	free(final_path);
+	return (ret);
 }

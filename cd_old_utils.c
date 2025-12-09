@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_ex_utils.c                                      :+:      :+:    :+:   */
+/*   cd_old_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
+/*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/08 01:34:49 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/08 11:59:54 by yebi             ###   ########.fr       */
+/*   Created: 2025/12/08 01:21:40 by ebichan           #+#    #+#             */
+/*   Updated: 2025/12/09 15:01:17 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,4 @@ int	check_cd_args(t_cmd *cmd)
 			return (2);
 	}
 	return (0);
-}
-
-void	ft_lst_del_last(t_list **lst, void (*del)(void *))
-{
-	t_list	*cur;
-	t_list	*prv;
-
-	if (!lst || !*lst)
-		return ;
-	cur = *lst;
-	prv = NULL;
-	while (cur->next)
-	{
-		prv = cur;
-		cur = cur->next;
-	}
-	if (del)
-		del(cur->content);
-	free(cur);
-	if (prv)
-		prv->next = NULL;
-	else
-		*lst = NULL;
 }

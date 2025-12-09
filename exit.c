@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
+/*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:57:11 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/08 12:00:10 by yebi             ###   ########.fr       */
+/*   Updated: 2025/12/09 15:19:41 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,16 @@ static int	check_overflow(char *str)
 int	builtin_exit(t_cmd *cmd, t_data *data)
 {
 	long	exit_status;
-
-	ft_putendl_fd("exit", STDERR_FILENO);
+	
 	if (ft_argv_len(cmd->argv) >= 2)
 	{
-		if (is_numeric(cmd->argv[1]) == 0)
-			exit_err(cmd);
 		if (ft_argv_len(cmd->argv) >= 3)
 		{
 			ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
 			return (1);
 		}
+		if (is_numeric(cmd->argv[1]) == 0)
+			exit_err(cmd);
 		exit_status = ft_atol(cmd->argv[1]);
 		if (exit_status == 2 && check_overflow(cmd->argv[1]))
 			exit_err(cmd);
