@@ -6,11 +6,25 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 01:34:49 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/09 15:01:30 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/10 15:11:49 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_split(char **result, int i_max)
+{
+	int	i;
+
+	i = 0;
+	while (i < i_max)
+	{
+		free(result[i]);
+		i++;
+	}
+	free(result);
+}
+
 
 int	cd_error(char *path)
 {
