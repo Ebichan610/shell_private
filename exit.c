@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:57:11 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/09 15:19:41 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/11 08:00:01 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int	builtin_exit(t_cmd *cmd, t_data *data)
 {
 	long	exit_status;
 	
+	if(isatty(STDIN_FILENO) && !cmd->is_in_child)
+		ft_putendl_fd("exit", STDERR_FILENO);
 	if (ft_argv_len(cmd->argv) >= 2)
 	{
 		if (ft_argv_len(cmd->argv) >= 3)

@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:56:25 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/09 15:01:54 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/11 11:47:33 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	builtin_pwd(t_cmd *cmd, t_data *data)
 	char	*cwd;
 
 	if (print_option_err(cmd))
-		return (1);
+		return (2);
 	pwd = get_env_value("PWD", data);
 	if (pwd != NULL && ft_strlen(pwd) > 0 && is_pwd_valid(pwd))
 		ft_putendl_fd(pwd, STDOUT_FILENO);

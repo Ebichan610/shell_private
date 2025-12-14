@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 00:16:42 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/09 15:01:25 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/14 14:00:55 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ static char	*set_cd_path(t_cmd *cmd, t_data *data)
 		}
 		return (ft_strdup(path));
 	}
-	if (ft_strncmp(cmd->argv[1], "-", 2) == 0)
+	if (ft_strcmp(cmd->argv[1], "-") == 0)
 	{
 		path = get_env_value("OLDPWD", data);
-		if (path == NULL)
+		if (path == NULL || ft_strlen(path) == 0)
 		{
 			ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
 			return (NULL);
@@ -53,8 +53,9 @@ static char	*get_base_pwd(t_data *data)
 	char	*pwd;
 
 	pwd = get_env_value("PWD", data);
-	if (pwd)
-		return (ft_strdup(pwd));
+	if (pwd != NULL && ft_strlen(pwd) > 0)
+		return (pwd);
+	free(pwd);
 	return (getcwd(NULL, 0));
 }
 
@@ -83,6 +84,12 @@ int	builtin_cd(t_cmd *cmd, t_data *data)
 	if (target == NULL)
 		return (1);
 	base_pwd = get_base_pwd(data);
+	if (base_pwd == NULL)
+	{
+		ft_putendl_fd("minishell: cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", STDERR_FILENO);
+		free(target);
+		return (1);
+	}
 	final_path = solve_logic_path(base_pwd, target);
 	free(target);
 	if (final_path == NULL)
