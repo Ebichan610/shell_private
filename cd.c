@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 00:16:42 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/14 14:00:55 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/14 14:06:26 by yebi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int	builtin_cd(t_cmd *cmd, t_data *data)
 	base_pwd = get_base_pwd(data);
 	if (base_pwd == NULL)
 	{
-		ft_putendl_fd("minishell: cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", STDERR_FILENO);
+		ft_putendl_fd("minishell: cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory",
+			STDERR_FILENO);
 		free(target);
 		return (1);
 	}

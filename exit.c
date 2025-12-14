@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:57:11 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/11 08:00:01 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/14 14:06:56 by yebi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ static int	check_overflow(char *str)
 int	builtin_exit(t_cmd *cmd, t_data *data)
 {
 	long	exit_status;
-	
-	if(isatty(STDIN_FILENO) && !cmd->is_in_child)
+
+	if (isatty(STDIN_FILENO) && !cmd->is_in_child)
 		ft_putendl_fd("exit", STDERR_FILENO);
 	if (ft_argv_len(cmd->argv) >= 2)
 	{

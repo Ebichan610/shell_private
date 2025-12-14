@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 01:34:49 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/10 15:11:49 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/14 14:06:22 by yebi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	free_split(char **result, int i_max)
 	}
 	free(result);
 }
-
 
 int	cd_error(char *path)
 {
