@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
+/*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:56:25 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/14 14:07:04 by yebi             ###   ########.fr       */
+/*   Updated: 2025/12/16 18:56:08 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ int	builtin_pwd(t_cmd *cmd, t_data *data)
 		return (2);
 	pwd = get_env_value("PWD", data);
 	if (pwd != NULL && ft_strlen(pwd) > 0 && is_pwd_valid(pwd))
+	{
 		ft_putendl_fd(pwd, STDOUT_FILENO);
+		free(pwd);
+	}
 	else
 	{
 		cwd = getcwd(NULL, 0);
