@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
+/*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 00:16:42 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/14 14:06:26 by yebi             ###   ########.fr       */
+/*   Updated: 2025/12/16 19:05:49 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,23 @@ static char	*set_cd_path(t_cmd *cmd, t_data *data)
 		path = get_env_value("HOME", data);
 		if (path == NULL || ft_strlen(path) == 0)
 		{
+			free(path);
 			ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
 			return (NULL);
 		}
-		return (ft_strdup(path));
+		return (path);
 	}
 	if (ft_strcmp(cmd->argv[1], "-") == 0)
 	{
 		path = get_env_value("OLDPWD", data);
 		if (path == NULL || ft_strlen(path) == 0)
 		{
+			free(path);
 			ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
 			return (NULL);
 		}
 		ft_putendl_fd(path, STDOUT_FILENO);
-		return (ft_strdup(path));
+		return (path);
 	}
 	return (ft_strdup(cmd->argv[1]));
 }
