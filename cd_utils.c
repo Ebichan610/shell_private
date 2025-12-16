@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
+/*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 01:34:49 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/14 14:06:22 by yebi             ###   ########.fr       */
+/*   Updated: 2025/12/14 14:11:16 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_split(char **result, int i_max)
+void	free_split(char **result)
 {
 	int	i;
 
 	i = 0;
-	while (i < i_max)
+	while (result[i] != NULL)
 	{
 		free(result[i]);
 		i++;
