@@ -6,7 +6,7 @@
 /*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 01:34:49 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/17 16:53:46 by yebi             ###   ########.fr       */
+/*   Updated: 2025/12/17 17:05:48 by yebi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,12 @@ int	check_cd_args(t_cmd *cmd)
 		return (1);
 	}
 	return (0);
+}
+
+void	update_dir(t_data *data, char *old_pwd, char *new_path)
+{
+	if (old_pwd)
+		update_env_var_cd(data, "OLDPWD", old_pwd);
+	if (new_path)
+		update_env_var_cd(data, "PWD", new_path);
 }

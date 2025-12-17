@@ -6,7 +6,7 @@
 /*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 00:16:42 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/17 16:53:47 by yebi             ###   ########.fr       */
+/*   Updated: 2025/12/17 17:05:54 by yebi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,6 @@ static char	*set_cd_path(t_cmd *cmd, t_data *data)
 	return (path);
 }
 
-static void	update_dir(t_data *data, char *old_pwd, char *new_path)
-{
-	if (old_pwd)
-		update_env_var_cd(data, "OLDPWD", old_pwd);
-	if (new_path)
-		update_env_var_cd(data, "PWD", new_path);
-}
-
 static char	*get_base_pwd(t_data *data)
 {
 	char	*pwd;
@@ -68,9 +60,34 @@ static int	exec_chdir(t_data *data, char *final_path, char *base_pwd,
 	return (0);
 }
 
-int	builtin_cd(t_cmd *cmd, t_data *data)
+static char	*resolve_cd_path(t_cmd *cmd, t_data *data, char **base_pwd)
 {
 	char	*target;
+	char	*final_path;
+
+	target = set_cd_path(cmd, data);
+	if (target == NULL)
+		return (NULL);
+	*base_pwd = get_base_pwd(data);
+	if (*base_pwd == NULL)
+	{
+		free(target);
+		cd_error(cmd->argv[1]);
+		return (NULL);
+	}
+	final_path = solve_logic_path(*base_pwd, target);
+	free(target);
+	if (final_path == NULL)
+	{
+		free(*base_pwd);
+		*base_pwd = NULL;
+		return (NULL);
+	}
+	return (final_path);
+}
+
+int	builtin_cd(t_cmd *cmd, t_data *data)
+{
 	char	*base_pwd;
 	char	*final_path;
 	int		ret;
@@ -78,22 +95,9 @@ int	builtin_cd(t_cmd *cmd, t_data *data)
 	ret = check_cd_args(cmd);
 	if (ret != 0)
 		return (ret);
-	target = set_cd_path(cmd, data);
-	if (target == NULL)
-		return (1);
-	base_pwd = get_base_pwd(data);
-	if (base_pwd == NULL)
-	{
-		free(target);
-		return (cd_error(cmd->argv[1]));
-	}
-	final_path = solve_logic_path(base_pwd, target);
-	free(target);
+	final_path = resolve_cd_path(cmd, data, &base_pwd);
 	if (final_path == NULL)
-	{
-		free(base_pwd);
 		return (1);
-	}
 	ret = exec_chdir(data, final_path, base_pwd, cmd->argv[1]);
 	free(base_pwd);
 	free(final_path);
