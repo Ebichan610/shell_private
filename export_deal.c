@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_deal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
+/*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 14:58:01 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/14 14:06:57 by yebi             ###   ########.fr       */
+/*   Updated: 2025/12/17 15:42:45 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,25 @@ static void	update_env_value(t_data *data, int i, char *arg, int append_flag)
 {
 	char	*new_entry;
 	char	*val_start;
+	char *tmp;
 
 	val_start = ft_strchr(arg, '=');
 	if (val_start == NULL)
 		return ;
 	val_start++;
 	if (append_flag)
-		new_entry = ft_strjoin(data->envp[i], val_start);
+	{
+		if(ft_strchr(data->envp[i], '='))
+			new_entry = ft_strjoin(data->envp[i], val_start);
+		else
+		{
+			tmp = ft_strjoin(data->envp[i], "=");
+			if(tmp == NULL)
+				return;
+			new_entry = ft_strjoin(data->envp[i], val_start);
+			free(tmp);
+		}
+	}
 	else
 		new_entry = create_clean_env(arg);
 	if (new_entry == NULL)

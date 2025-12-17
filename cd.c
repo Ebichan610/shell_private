@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 00:16:42 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/17 15:03:23 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/17 15:35:31 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static char	*set_cd_path(t_cmd *cmd, t_data *data)
 {
 	char	*path;
 
+	if(ft_argv_len(cmd->argv) > 1 && ft_strcmp(cmd->argv[1], "-") != 0)
+		return (ft_strdup(cmd->argv[1]));
 	if (ft_argv_len(cmd->argv) == 1)
 	{
 		path = get_env_value("HOME", data);
@@ -27,19 +29,15 @@ static char	*set_cd_path(t_cmd *cmd, t_data *data)
 		}
 		return (path);
 	}
-	if (ft_strcmp(cmd->argv[1], "-") == 0)
+	path = get_env_value("OLDPWD", data);
+	if (path == NULL || ft_strlen(path) == 0)
 	{
-		path = get_env_value("OLDPWD", data);
-		if (path == NULL || ft_strlen(path) == 0)
-		{
-			free(path);
-			ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
-			return (NULL);
-		}
-		ft_putendl_fd(path, STDOUT_FILENO);
-		return (path);
+		free(path);
+		ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
+		return (NULL);
 	}
-	return (ft_strdup(cmd->argv[1]));
+	ft_putendl_fd(path, STDOUT_FILENO);
+	return (path);
 }
 
 static void	update_dir(t_data *data, char *old_pwd, char *new_path)
