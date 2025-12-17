@@ -6,7 +6,7 @@
 /*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 00:16:42 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/16 19:05:49 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/17 15:03:23 by ebichan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,10 @@ static char	*get_base_pwd(t_data *data)
 	return (getcwd(NULL, 0));
 }
 
-static int	exec_chdir(t_data *data, char *final_path, char *base_pwd)
+static int	exec_chdir(t_data *data, char *final_path, char *base_pwd, char *arg)
 {
 	if (chdir(final_path) == -1)
-	{
-		cd_error(final_path);
-		return (1);
-	}
+		return (cd_error(arg));
 	update_dir(data, base_pwd, final_path);
 	return (0);
 }
@@ -88,10 +85,8 @@ int	builtin_cd(t_cmd *cmd, t_data *data)
 	base_pwd = get_base_pwd(data);
 	if (base_pwd == NULL)
 	{
-		ft_putendl_fd("minishell: cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory",
-			STDERR_FILENO);
 		free(target);
-		return (1);
+		return (cd_error(cmd->argv[1]));
 	}
 	final_path = solve_logic_path(base_pwd, target);
 	free(target);
@@ -100,7 +95,7 @@ int	builtin_cd(t_cmd *cmd, t_data *data)
 		free(base_pwd);
 		return (1);
 	}
-	ret = exec_chdir(data, final_path, base_pwd);
+	ret = exec_chdir(data, final_path, base_pwd, cmd->argv[1]);
 	free(base_pwd);
 	free(final_path);
 	return (ret);
