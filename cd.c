@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 00:16:42 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/17 15:35:31 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/17 15:45:24 by yebi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*set_cd_path(t_cmd *cmd, t_data *data)
 {
 	char	*path;
 
-	if(ft_argv_len(cmd->argv) > 1 && ft_strcmp(cmd->argv[1], "-") != 0)
+	if (ft_argv_len(cmd->argv) > 1 && ft_strcmp(cmd->argv[1], "-") != 0)
 		return (ft_strdup(cmd->argv[1]));
 	if (ft_argv_len(cmd->argv) == 1)
 	{
@@ -59,7 +59,8 @@ static char	*get_base_pwd(t_data *data)
 	return (getcwd(NULL, 0));
 }
 
-static int	exec_chdir(t_data *data, char *final_path, char *base_pwd, char *arg)
+static int	exec_chdir(t_data *data, char *final_path, char *base_pwd,
+		char *arg)
 {
 	if (chdir(final_path) == -1)
 		return (cd_error(arg));

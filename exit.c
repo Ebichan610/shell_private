@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebichan <ebichan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yebi <yebi@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 09:57:11 by ebichan           #+#    #+#             */
-/*   Updated: 2025/12/16 22:27:36 by ebichan          ###   ########.fr       */
+/*   Updated: 2025/12/17 15:45:30 by yebi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	exit_err(t_cmd *cmd, t_data *data)
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(cmd->argv[1], STDERR_FILENO);
 	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
-	if(data != NULL)
+	if (data != NULL)
 		free_all_data(data);
 	exit(2);
 }
@@ -93,7 +93,7 @@ int	builtin_exit(t_cmd *cmd, t_data *data)
 			exit_err(cmd, data);
 		exit_status = ft_atol(cmd->argv[1]);
 		if (exit_status == 2 && check_overflow(cmd->argv[1]))
-			exit_err(cmd,data);
+			exit_err(cmd, data);
 		if (ft_argv_len(cmd->argv) >= 3)
 		{
 			ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
@@ -101,7 +101,7 @@ int	builtin_exit(t_cmd *cmd, t_data *data)
 		}
 		data->last_status = (int)(exit_status % 256);
 	}
-	if(data != NULL)
+	if (data != NULL)
 		free_all_data(data);
 	exit(data->last_status);
 	return (0);
